@@ -3,13 +3,14 @@ function easyHTTP() {
 }
 
 //Make HTTP Get Request
-easyHTTP.prototype.get = (url, cb) => {
+easyHTTP.prototype.get = function (url, cb) {
+    const self = this;
     this.http.open('GET', url, true);
-    this.http.onload = () => {
-        if (this.http.status === 200) {
-            cb(null, this.http.responseText);
+    this.http.onload = function () {
+        if (self.http.status === 200) {
+            cb(null, self.http.responseText);
         } else {
-            cb('Error: ' + this.http.status);
+            cb('Error: ' + self.http.status);
         }
     };
     this.http.send();
@@ -17,34 +18,37 @@ easyHTTP.prototype.get = (url, cb) => {
 
 
 //Make HTTP POST Request
-easyHTTP.prototype.post = (url, data, cb) => {
-    this.http.open('POST', url, true);
+easyHTTP.prototype.post = function (url, data, cb) {
+    const self = this;
+    this.http.open('POST', url, true)
     this.http.setRequestHeader('content-type', 'application/json');
 
-    this.http.onload = () => {
-        cb(null, this.http.responseText);
+    this.http.onload = function () {
+        cb(null, self.http.responseText);
     };
     this.http.send(JSON.stringify(data));
 };
 
 //Make HTTP PUT Request
-easyHTTP.prototype.put = (url, data, cb) => {
-    this.http.open('PUT', url, true);
+easyHTTP.prototype.put = function (url, data, cb) {
+    const self = this;
+    this.http.open('PUT', url, true)
     this.http.setRequestHeader('content-type', 'application/json');
 
     this.http.onload = function () {
-        cb(null, this.http.responseText);
+        cb(null, self.http.responseText);
     };
     this.http.send(JSON.stringify(data));
 };
 //Make HTTP DELETE Request
-easyHTTP.prototype.delete = (url, cb) => {
+easyHTTP.prototype.delete = function (url, cb) {
+    const self = this;
     this.http.open('DELETE', url, true);
     this.http.onload = function () {
-        if (this.http.status === 200) {
+        if (self.http.status === 200) {
             cb(null, "post deleted");
         } else {
-            cb('Error: ' + this.http.status);
+            cb('Error: ' + self.http.status);
         }
     };
     this.http.send();
